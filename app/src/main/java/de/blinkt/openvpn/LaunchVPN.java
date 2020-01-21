@@ -131,7 +131,9 @@ public class LaunchVPN extends Activity {
         }
     }
 
-
+    Context getContextOfThis(Context cont){
+        return  cont;
+    }
 
     public void AuthBeforeStart(){
 
@@ -154,7 +156,7 @@ public class LaunchVPN extends Activity {
             }
         });
         dialog.setView(userpwlayout);
-
+        final Context cont = getContextOfThis(this);
         AlertDialog.Builder builder = dialog.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -166,6 +168,10 @@ public class LaunchVPN extends Activity {
                     mSelectedProfile.mPassword = null;
                     mTransientAuthPW = pw;
                 }
+                ProfileManager pm = ProfileManager.getInstance(cont);
+                pm.saveProfile(cont, mSelectedProfile);
+                pm.saveProfileList(cont);
+
                 //|Log.d("STATE", "usr: " + mSelectedProfile.mUsername + " pass: "+ mSelectedProfile.mPassword);
                 if(((EditText) userpwlayout.findViewById(R.id.username)).getText().toString().toLowerCase() != null  && pw != null){
                     launchVPN();

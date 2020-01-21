@@ -22,6 +22,7 @@ import androidx.appcompat.widget.Toolbar;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.text.method.PasswordTransformationMethod;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -40,6 +41,9 @@ import com.github.angads25.toggle.LabeledSwitch;
 import com.github.angads25.toggle.interfaces.OnToggledListener;
 import com.google.android.material.navigation.NavigationView;
 
+import java.lang.ref.WeakReference;
+import java.lang.reflect.Array;
+import java.lang.reflect.Field;
 import java.util.Locale;
 
 import androidx.core.view.GravityCompat;
@@ -48,6 +52,7 @@ import androidx.preference.*;
 import de.blinkt.openvpn.LaunchVPN;
 import de.blinkt.openvpn.VpnProfile;
 import de.blinkt.openvpn.core.App;
+import de.blinkt.openvpn.core.Connection;
 import de.blinkt.openvpn.core.ConnectionStatus;
 import de.blinkt.openvpn.core.IOpenVPNServiceInternal;
 import de.blinkt.openvpn.core.OpenVPNManagement;
@@ -76,6 +81,7 @@ public class MainActivity extends AppCompatActivity implements VpnStatus.ByteCou
     private TextView textUpload, textDownload;
 
     private LabeledSwitch modeSwitch;
+    private Boolean routeAllMode = false;
     private ImageButton modeSwHelpButt;
 
     private Button mainButt;
@@ -103,8 +109,8 @@ public class MainActivity extends AppCompatActivity implements VpnStatus.ByteCou
         }
     };
 
-    public void EditAuthDets(){
-        ProfileManager pm = ProfileManager.getInstance(this);
+    public void EditAuthDets(final Context context){
+        final ProfileManager pm = ProfileManager.getInstance(this);
         final VpnProfile profile = pm.getProfileByName(Build.MODEL);//
 
         final EditText entry = new EditText(this);
@@ -126,7 +132,6 @@ public class MainActivity extends AppCompatActivity implements VpnStatus.ByteCou
             }
         });
         dialog.setView(userpwlayout);
-
         AlertDialog.Builder builder = dialog.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -136,6 +141,17 @@ public class MainActivity extends AppCompatActivity implements VpnStatus.ByteCou
                     profile.mPassword = pw;
                 } else {
                     profile.mPassword = null;
+                }
+                pm.saveProfile(context, profile);
+                pm.saveProfileList(context);
+                //UI
+                if(profile.mUsername.isEmpty())
+                {
+                    usernameTxt.setText(getString(R.string.design_username));
+                }
+                else
+                {
+                    usernameTxt.setText(profile.mUsername);
                 }
 
                 //Log.d("STATE", "usr: " + mSelectedProfile.mUsername + " pass: "+ mSelectedProfile.mPassword);
@@ -217,6 +233,22 @@ public class MainActivity extends AppCompatActivity implements VpnStatus.ByteCou
                 .addGitHub("honzapatCZ", "honzapatCZ")
                 .create()
         );
+    }
+
+    public static String dump(Object o){
+        Field[] fields = o.getClass().getDeclaredFields();
+        String fin = "";
+        for (int i=0; i<fields.length; i++)
+        {
+            try
+            {
+                fin += fields[i].getName() + " - " + fields[i].get(o) + "\n";
+            }
+            catch (java.lang.IllegalAccessException excp){
+                fin = fin;
+            }
+        }
+        return fin;
     }
 
     @Override
@@ -320,10 +352,21 @@ public class MainActivity extends AppCompatActivity implements VpnStatus.ByteCou
         aboutLayout.addView(CreateAboutPage());
 
         modeSwitch = findViewById(R.id.mode_Switch);
+        routeAllMode = modeSwitch.isOn();
         modeSwitch.setOnToggledListener(new OnToggledListener() {
             @Override
             public void onSwitched(LabeledSwitch labeledSwitch, boolean isOn) {
                 // Implement your switching logic here
+                routeAllMode = isOn;
+
+                if(App.isStart)
+                {
+                    stopVPN();
+                    App.isStart = false;
+                    startVPN(false);
+                    App.isStart = true;
+
+                }
             }
         });
 
@@ -345,6 +388,10 @@ public class MainActivity extends AppCompatActivity implements VpnStatus.ByteCou
         textDownload = findViewById(R.id.textDownload);
         //btnConnect = findViewById(R.id.buttonConnect);
         btnModify = findViewById(R.id.buttonModify);
+
+
+
+
 
         mainBar = findViewById(R.id.MainButtProgress);
         mainButt = findViewById(R.id.MainButton);
@@ -390,15 +437,17 @@ public class MainActivity extends AppCompatActivity implements VpnStatus.ByteCou
                     }
                 };
                 r.run();
+                Log.d("INFO", "Ahoj");
             }
         });
+        final Context cont = getContextOfThis(this);
         btnModify.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {//EditAuthDets();
                 Runnable r = new Runnable() {
                     @Override
                     public void run() {
-                        EditAuthDets();
+                        EditAuthDets(cont);
                     }
                 };
                 r.run();
@@ -408,7 +457,9 @@ public class MainActivity extends AppCompatActivity implements VpnStatus.ByteCou
 
     }
 
-
+    Context getContextOfThis(Context cont){
+        return  cont;
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -443,6 +494,15 @@ public class MainActivity extends AppCompatActivity implements VpnStatus.ByteCou
         try {
             ProfileManager pm = ProfileManager.getInstance(this);
             VpnProfile profile = pm.getProfileByName(Build.MODEL);//
+
+            if(routeAllMode)
+            {
+                profile.mUseDefaultRoute = true;
+            }
+            else
+            {
+                profile.mUseDefaultRoute = false;
+            }
 
             statusTxt.setText(getString(R.string.connecting));
             statusTxt.setTextColor(getResources().getColor(R.color.colorAccent));
