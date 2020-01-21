@@ -4,9 +4,9 @@
  */
 package de.blinkt.openvpn.core;
 import android.os.Build;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import junit.framework.Assert;
-import com.wxy.vpn2018.BuildConfig;
+import com.honzapatCZ.PilsfreeVPN.BuildConfig;
 import java.math.BigInteger;
 import java.net.Inet6Address;
 import java.util.Collection;

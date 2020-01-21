@@ -6,7 +6,7 @@ package de.blinkt.openvpn.core;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
-import com.wxy.vpn2018.R;
+import com.honzapatCZ.PilsfreeVPN.R;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;

@@ -13,7 +13,7 @@ import android.net.NetworkInfo;
 import android.net.NetworkInfo.State;
 import android.os.Handler;
 
-import com.wxy.vpn2018.R;
+import com.honzapatCZ.PilsfreeVPN.R;
 
 import java.util.LinkedList;
 

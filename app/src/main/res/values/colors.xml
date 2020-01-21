@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#17C7D1</color>
-    <color name="colorPrimaryDark">#17C7D1</color>
-    <color name="colorAccent">#17C7D1</color>
+    <color name="colorPrimary">#fdb812</color>
+    <color name="colorPrimaryDark">#fed677</color>
+    <color name="colorAccent">#fdb812</color>
+    <color name="colorGray">#8e8e8e</color>
+    <color name="colorGrayDark">#5e6567</color>
+
 
     <!-- Indigo -->
     <!-- OpenVPN colours #203155, #C66D0D -->

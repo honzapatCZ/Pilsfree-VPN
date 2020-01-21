@@ -7,7 +7,7 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
-import com.wxy.vpn2018.R;
+import com.honzapatCZ.PilsfreeVPN.R;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;

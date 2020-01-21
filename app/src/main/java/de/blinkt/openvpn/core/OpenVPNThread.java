@@ -7,7 +7,7 @@ package de.blinkt.openvpn.core;
 import android.annotation.SuppressLint;
 //import android.util.Log;
 
-import com.wxy.vpn2018.R;
+import com.honzapatCZ.PilsfreeVPN.R;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -30,7 +30,7 @@ public class OpenVPNThread implements Runnable {
     public static final int M_DEBUG = (1 << 7);
     private static final String DUMP_PATH_STRING = "Dump path: ";
     @SuppressLint("SdCardPath")
-    private static final String BROKEN_PIE_SUPPORT = "/data/data/com.wxy.vpn2018/cache/pievpn";
+    private static final String BROKEN_PIE_SUPPORT = "/data/data/com.honzapatCZ.PilsfreeVPN/cache/pievpn";
     private final static String BROKEN_PIE_SUPPORT2 = "syntax error";
     private static final String TAG = "OpenVPN";
     private String[] mArgv;

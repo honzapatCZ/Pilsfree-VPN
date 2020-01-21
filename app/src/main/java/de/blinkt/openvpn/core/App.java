@@ -16,7 +16,7 @@ import android.os.Build;
 //import com.orm.SugarContext;
 
 //import com.oasisfeng.condom.CondomProcess;
-import com.wxy.vpn2018.R;
+import com.honzapatCZ.PilsfreeVPN.R;
 
 /*
 import org.acra.ACRA;

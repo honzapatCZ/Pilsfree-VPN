@@ -1,4 +1,4 @@
-package com.wxy.vpn2018;
+package com.honzapatCZ.PilsfreeVPN;
 
 import android.content.Context;
 import android.os.Environment;

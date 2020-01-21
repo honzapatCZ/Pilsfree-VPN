@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="connect">Připojit</string>
+    <string name="connected">Připojeno</string>
+    <string name="auth_username">Uživatelské jméno</string>
+    <string name="auth_wrong_user_or_pass">Chybné uživatelské jméno nebo heslo</string>
+    <string name="connecting">Připojuji</string>
+    <string name="notifcation_title_notconnect">Nepřipojeno</string>
+    <string name="state_assign_ip">Přiděluji IP adresu</string>
+    <string name="state_auth">Autorizuji</string>
+    <string name="state_connecting">Připojuji</string>
+    <string name="state_get_config">Získávám konfiguraci</string>
+    <string name="state_wait">Čekám na odpověď serveru</string>
+    <string name="not_show_more">Neukazovat více</string>
+    <string name="state_disconnected">Odpojeno</string>
+    <string name="error1">Chyba</string>
+    <string name="down_fail">Načítání dat selhalo:</string>
+    <string name="config_error_found">Chyba v konfiguračním souboru</string>
+
+    <string name="mode_switch">Přepne na tunelování všech dat skrz VPN. V základě pouze požadavky které se nedostanou do cílové destinace jsou tunelovány skrz VPN. Ponechání vypnuté stačí pro IPTV, ale zbytek nejde skrz VPN.</string>
+
+    <string name="on">ZAP</string>
+    <string name="off">VYP</string>
+    <string name="pw_modify_dialog_title">Editace přihlašovacích údajů</string>
+    <string name="save_password">Ukládat heslo</string>
+    <string name="screen_nopersistenttun">Ukázat heslo</string>
+    <string name="nav_adv">Pokročilé nastavení</string>
+    <string name="nav_about">O aplikaci</string>
+    <string name="nav_main">Hlavní stránka</string>
+    <string name="pw_request_dialog_title">Autorizace</string>
+    <string name="pw_request_dialog_prompt">Prosím zadejte jméno a heslo z IS</string>
+    <string name="all_traffic">Všechny požadavky:</string>
+    <string name="design_username">Uživatel</string>
+    <string name="about_version">Verze %s</string>
+    <string name="about_descr">VPN na 1 kliknutí pro uživatel komunitní sítě Pilsfree</string>
+    <string name="about_is_info">Info o VPN v IS</string>
+    <string name="about_on_gplay">Mrkni na apku v Google Play</string>
+    <string name="about_copyr">Částečný copyright: Pilsfree - barvy, honzapatCZ - Obrázky, Tématika</string>
+    <string name="about_Mgithub">Hlavní vývojový repozitář %s</string>
+    <string name="about_MDev">Hlavní Vývopjář</string>
+    <string name="about_licenseText">Licence</string>
+</resources>

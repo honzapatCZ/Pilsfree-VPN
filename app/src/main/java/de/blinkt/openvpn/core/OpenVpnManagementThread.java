@@ -10,13 +10,13 @@ import android.net.LocalSocket;
 import android.net.LocalSocketAddress;
 import android.os.Handler;
 import android.os.ParcelFileDescriptor;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import android.util.Log;
 
 import junit.framework.Assert;
 
-import com.wxy.vpn2018.BuildConfig;
-import com.wxy.vpn2018.R;
+import com.honzapatCZ.PilsfreeVPN.BuildConfig;
+import com.honzapatCZ.PilsfreeVPN.R;
 
 import java.io.FileDescriptor;
 import java.io.IOException;

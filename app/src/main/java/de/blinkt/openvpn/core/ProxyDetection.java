@@ -3,7 +3,7 @@
  * Distributed under the GNU GPL v2 with additional terms. For full terms see the file doc/LICENSE.txt
  */
 package de.blinkt.openvpn.core;
-import com.wxy.vpn2018.R;
+import com.honzapatCZ.PilsfreeVPN.R;
 import java.net.InetSocketAddress;
 import java.net.MalformedURLException;
 import java.net.Proxy;

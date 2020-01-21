@@ -29,16 +29,16 @@ import android.os.IBinder;
 import android.os.Message;
 import android.os.ParcelFileDescriptor;
 import android.os.RemoteException;
-import android.support.annotation.NonNull;
-import android.support.annotation.RequiresApi;
+import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import android.system.OsConstants;
 import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.wxy.vpn2018.BuildConfig;
-import com.wxy.vpn2018.MainActivity;
-import com.wxy.vpn2018.R;
+import com.honzapatCZ.PilsfreeVPN.BuildConfig;
+import com.honzapatCZ.PilsfreeVPN.MainActivity;
+import com.honzapatCZ.PilsfreeVPN.R;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
@@ -67,7 +67,7 @@ public class OpenVPNService extends VpnService implements StateListener, Callbac
     public static final String NOTIFICATION_CHANNEL_BG_ID = "vpn_bg";
     public static final String NOTIFICATION_CHANNEL_NEWSTATUS_ID = "openvpn_newstat";
     private static final String PAUSE_VPN = "de.blinkt.openvpn.PAUSE_VPN";
-    private static final String RESUME_VPN = "com.wxy.vpn2018.RESUME_VPN";
+    private static final String RESUME_VPN = "com.honzapatCZ.PilsfreeVPN.RESUME_VPN";
     private static final int PRIORITY_MIN = -2;
     private static final int PRIORITY_DEFAULT = 0;
     private static final int PRIORITY_MAX = 2;

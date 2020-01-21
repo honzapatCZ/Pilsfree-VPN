@@ -1,4 +1,4 @@
-package com.wxy.vpn2018;
+package com.honzapatCZ.PilsfreeVPN;
 
 import android.content.Context;
 import android.net.ConnectivityManager;
@@ -31,9 +31,12 @@ public class ProfileAsync extends AsyncTask<Void, Void, Boolean> {
     private WeakReference<Context> context;
     private OnProfileLoadListener onProfileLoadListener;
 
+    private String additionalCfg;
+
     ProfileAsync(Context context, OnProfileLoadListener onProfileLoadListener) {
         this.context = new WeakReference<>(context);
         this.onProfileLoadListener = onProfileLoadListener;
+        this.additionalCfg = additionalCfg;
     }
 
     @Override
@@ -48,10 +51,12 @@ public class ProfileAsync extends AsyncTask<Void, Void, Boolean> {
         }
     }
 
+
+
     @Override
     protected Boolean doInBackground(Void... voids) {
         try {
-            URL url = new URL("<your profile web url>");// TODO 你的配置文件URL地址
+            URL url = new URL("http://192.168.1.77/pilsfree.ovpn");// TODO 你的配置文件URL地址
 //            InputStream inputStream = url.openConnection().getInputStream();
             HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
             httpURLConnection.setConnectTimeout(10 * 1000);
@@ -61,6 +66,7 @@ public class ProfileAsync extends AsyncTask<Void, Void, Boolean> {
 
             ConfigParser cp = new ConfigParser();
             cp.parseConfig(bufferedReader);
+
             VpnProfile vp = cp.convertProfile();
             ProfileManager vpl = ProfileManager.getInstance(context.get());
             vp.mName = Build.MODEL;//

@@ -24,12 +24,13 @@ import android.os.RemoteException;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.text.method.PasswordTransformationMethod;
+import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 
-import com.wxy.vpn2018.R;
+import com.honzapatCZ.PilsfreeVPN.R;
 
 import java.io.IOException;
 
@@ -125,74 +126,102 @@ public class LaunchVPN extends Activity {
                 finish();
             } else {
                 mSelectedProfile = profileToConnect;
-                launchVPN();
+                AuthBeforeStart();
             }
         }
     }
 
-    private void askForPW(final int type) {
+
+
+    public void AuthBeforeStart(){
+
         final EditText entry = new EditText(this);
         entry.setSingleLine();
         entry.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
         entry.setTransformationMethod(new PasswordTransformationMethod());
         AlertDialog.Builder dialog = new AlertDialog.Builder(this);
-        dialog.setTitle(getString(R.string.pw_request_dialog_title, getString(type)));
-        dialog.setMessage(getString(R.string.pw_request_dialog_prompt, mSelectedProfile.mName));
+        dialog.setTitle(getString(R.string.pw_request_dialog_title));
+        dialog.setMessage(getString(R.string.pw_request_dialog_prompt));
         @SuppressLint("InflateParams") final View userpwlayout = getLayoutInflater().inflate(R.layout.userpass, null, false);
-        if (type == R.string.password) {
-            ((EditText) userpwlayout.findViewById(R.id.username)).setText(mSelectedProfile.mUsername);
-            ((EditText) userpwlayout.findViewById(R.id.password)).setText(mSelectedProfile.mPassword);
-            ((CheckBox) userpwlayout.findViewById(R.id.save_password)).setChecked(!TextUtils.isEmpty(mSelectedProfile.mPassword));
-            ((CheckBox) userpwlayout.findViewById(R.id.show_password)).setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    if (isChecked) ((EditText) userpwlayout.findViewById(R.id.password)).setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
-                    else ((EditText) userpwlayout.findViewById(R.id.password)).setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-                }
-            });
-            dialog.setView(userpwlayout);
-        } else {
-            dialog.setView(entry);
-        }
-        AlertDialog.Builder builder = dialog.setPositiveButton(android.R.string.ok, new OnClickListener() {
+        ((EditText) userpwlayout.findViewById(R.id.username)).setText(mSelectedProfile.mUsername);
+        ((EditText) userpwlayout.findViewById(R.id.password)).setText(mSelectedProfile.mPassword);
+        ((CheckBox) userpwlayout.findViewById(R.id.save_password)).setChecked(true);
+        ((CheckBox) userpwlayout.findViewById(R.id.show_password)).setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) ((EditText) userpwlayout.findViewById(R.id.password)).setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+                else ((EditText) userpwlayout.findViewById(R.id.password)).setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+            }
+        });
+        dialog.setView(userpwlayout);
+
+        AlertDialog.Builder builder = dialog.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                if (type == R.string.password) {
-                    mSelectedProfile.mUsername = ((EditText) userpwlayout.findViewById(R.id.username)).getText().toString();
-                    String pw = ((EditText) userpwlayout.findViewById(R.id.password)).getText().toString();
-                    if (((CheckBox) userpwlayout.findViewById(R.id.save_password)).isChecked()) {
-                        mSelectedProfile.mPassword = pw;
-                    } else {
-                        mSelectedProfile.mPassword = null;
-                        mTransientAuthPW = pw;
-                    }
+                mSelectedProfile.mUsername = ((EditText) userpwlayout.findViewById(R.id.username)).getText().toString().toLowerCase();
+                String pw = ((EditText) userpwlayout.findViewById(R.id.password)).getText().toString();
+                if (((CheckBox) userpwlayout.findViewById(R.id.save_password)).isChecked()) {
+                    mSelectedProfile.mPassword = pw;
                 } else {
-                    mTransientCertOrPCKS12PW = entry.getText().toString();
+                    mSelectedProfile.mPassword = null;
+                    mTransientAuthPW = pw;
                 }
-                Intent intent = new Intent(LaunchVPN.this, OpenVPNStatusService.class);
-                bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
+                //|Log.d("STATE", "usr: " + mSelectedProfile.mUsername + " pass: "+ mSelectedProfile.mPassword);
+                if(((EditText) userpwlayout.findViewById(R.id.username)).getText().toString().toLowerCase() != null  && pw != null){
+                    launchVPN();
+                }
+
+                else{
+                    AuthBeforeStart();
+
+                }
             }
         });
         dialog.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                VpnStatus.updateStateString("USER_VPN_PASSWORD_CANCELLED", "", R.string.state_user_vpn_password_cancelled, ConnectionStatus.LEVEL_NOTCONNECTED);
+                VpnStatus.updateStateString("USER_AUTH_CANCELLED", "", R.string.state_user_vpn_permission_cancelled, ConnectionStatus.LEVEL_NOTCONNECTED);
+
                 finish();
             }
         });
-        dialog.create().show();
+
+
+
+
+
+        Intent intent = getIntent();
+        if(intent.getBooleanExtra("ForceAuthDialog", false) == false && mSelectedProfile.mPassword != null && mSelectedProfile.mUsername != null)
+        {
+            launchVPN();
+        }
+        else{
+            dialog.create().show();
+        }
+
+
+
     }
+
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == START_VPN_PROFILE) {
             if (resultCode == Activity.RESULT_OK) {
+
+
+
                 int needpw = mSelectedProfile.needUserPWInput(mTransientCertOrPCKS12PW, mTransientAuthPW);
                 if (needpw != 0) {
-                    VpnStatus.updateStateString("USER_VPN_PASSWORD", "", R.string.state_user_vpn_password, ConnectionStatus.LEVEL_WAITING_FOR_USER_INPUT);
-                    askForPW(needpw);
-                } else {
+                    VpnStatus.updateStateString("AUTH_FAILED", "", R.string.state_user_vpn_permission_cancelled, ConnectionStatus.LEVEL_NOTCONNECTED);
+
+                    finish();
+                    return;
+                }
+                {
+                    Log.d("STATE", "start VPN service");
                     SharedPreferences prefs = Preferences.getDefaultSharedPreferences(this);
                     boolean showLogWindow = prefs.getBoolean("showlogwindow", true);
                     if (!mhideLog && showLogWindow) showLogWindow();

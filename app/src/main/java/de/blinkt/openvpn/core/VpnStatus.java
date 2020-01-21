@@ -9,7 +9,7 @@ import android.os.Build;
 import android.os.HandlerThread;
 import android.os.Message;
 
-import com.wxy.vpn2018.R;
+import com.honzapatCZ.PilsfreeVPN.R;
 
 import java.io.File;
 import java.io.PrintWriter;
