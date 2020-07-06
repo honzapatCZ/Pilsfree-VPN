@@ -17,7 +17,7 @@
     <string name="down_fail">Načítání dat selhalo:</string>
     <string name="config_error_found">Chyba v konfiguračním souboru</string>
 
-    <string name="mode_switch">Přepne na tunelování všech dat skrz VPN. V základě pouze požadavky které se nedostanou do cílové destinace jsou tunelovány skrz VPN. Ponechání vypnuté stačí pro IPTV, ale zbytek nejde skrz VPN.</string>
+    <string name="mode_switch">Přepne na tunelování všech dat skrz VPN. V základě pouze požadavky které se nedostanou do cílové destinace jsou tunelovány skrz VPN. Ponechání vypnuté stačí pro IPTV.</string>
 
     <string name="on">ZAP</string>
     <string name="off">VYP</string>
@@ -37,6 +37,6 @@
     <string name="about_on_gplay">Mrkni na apku v Google Play</string>
     <string name="about_copyr">Částečný copyright: Pilsfree - barvy, honzapatCZ - Obrázky, Tématika</string>
     <string name="about_Mgithub">Hlavní vývojový repozitář %s</string>
-    <string name="about_MDev">Hlavní Vývopjář</string>
+    <string name="about_MDev">Hlavní Vývojář</string>
     <string name="about_licenseText">Licence</string>
 </resources>

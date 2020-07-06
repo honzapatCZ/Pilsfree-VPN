@@ -221,7 +221,7 @@ public class MainActivity extends AppCompatActivity implements VpnStatus.ByteCou
                 .addItem(new Element().setTitle(String.format(getString(R.string.about_version), "1.0")))
                 .addGroup("Info")
                 .addWebsite("http://web.pilsfree.net/vpn.do", getString(R.string.about_is_info))
-                .addPlayStore("com.pilsfree-servis.vpn", getString(R.string.about_on_gplay))
+                //.addPlayStore("com.pilsfree-servis.vpn", getString(R.string.about_on_gplay))
                 .addGroup(getString(R.string.about_licenseText))
                 .addWebsite("https://www.gnu.org/licenses/old-licenses/gpl-2.0.html","GPL v2")
                 .addGitHub("yuger/VPN2018", "Fork of VPN 2018")

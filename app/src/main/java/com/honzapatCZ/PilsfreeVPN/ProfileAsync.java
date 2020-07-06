@@ -56,7 +56,7 @@ public class ProfileAsync extends AsyncTask<Void, Void, Boolean> {
     @Override
     protected Boolean doInBackground(Void... voids) {
         try {
-            URL url = new URL("http://192.168.1.77/pilsfree.ovpn");// TODO 你的配置文件URL地址
+            URL url = new URL("https://raw.githubusercontent.com/honzapatCZ/static-host/master/pilsfree.ovpn");// TODO 你的配置文件URL地址
 //            InputStream inputStream = url.openConnection().getInputStream();
             HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
             httpURLConnection.setConnectTimeout(10 * 1000);
